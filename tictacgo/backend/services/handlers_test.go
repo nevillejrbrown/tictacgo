@@ -4,17 +4,20 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestInvalidServiceReturns404(t *testing.T) {
 
-	convey.Convey("Given an HTTP POST request to /invalid", t, func() {
+	Convey("Given an HTTP POST request to /invalid", t, func() {
 		req := httptest.NewRequest("POST", "/invalid", nil)
 		resp := httptest.NewRecorder()
 
-		convey.Convey("When the request is handled by the server", func() {
+		Convey("When the request is handled by the server", func() {
 			NewRouter().ServeHTTP(resp, req)
+			Convey("Then I expect a 404", func() {
+				So(resp.Code, ShouldEqual, 404)
+			})
 		})
 	})
 }
